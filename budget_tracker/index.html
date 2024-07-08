@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BudgetT</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-gray-100">
+    <nav class="bg-blue-500 p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="text-white text-2xl font-bold">
+                BudgetT
+            </div>
+            <ul class="flex space-x-4">
+                <li><a href="index.html" class="text-white">Home</a></li>
+                <li><a href="profile.html" class="text-white">Profile</a></li>
+                <li><a href="transactions.html" class="text-white">Transactions</a></li>
+                <li><a href="reports.html" class="text-white">Reports</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mx-auto p-4">
+        <div class="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 p-6 rounded-lg shadow text-white mb-8">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h2 class="text-2xl font-semibold">Total Balance</h2>
+                    <p id="total-balance" class="text-3xl cursor-pointer">R0.00</p>
+                </div>
+                <div class="text-right">
+                    <p class="text-lg">Budget</p>
+                    <p id="income" class="text-xl cursor-pointer">R0.00</p>
+                </div>
+                <div class="text-right">
+                    <p class="text-lg">Budget Remaining</p>
+                    <p id="budget-remaining" class="text-xl">R0.00</p>
+                </div>
+                <div class="text-right">
+                    <p class="text-lg">Expenses</p>
+                    <p id="expenses" class="text-xl">R0.00</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white p-4 rounded-lg shadow mb-4">
+            <div class="flex items-center mb-4">
+                <div class="w-full bg-gray-200 rounded-full h-4">
+                    <div id="budget-progress" class="bg-blue-500 h-4 rounded-full" style="width: 100%;"></div>
+                </div>
+                <span id="budget-percentage" class="ml-2 text-gray-700">10%</span>
+            </div>
+            <div id="chart-container" class="flex justify-center">
+                <canvas id="budgetChart"></canvas>
+            </div>
+        </div>
+
+        <div class="bg-white p-4 rounded-lg shadow">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-semibold">Transactions</h3>
+                <div class="flex space-x-4">
+                    <button id="show-income-form" class="text-blue-500">Add Income</button>
+                    <button id="show-expense-form" class="text-blue-500">Add Expense</button>
+                </div>
+            </div>
+            <div class="space-y-4" id="transactions">
+                <!-- Transactions will be appended here -->
+            </div>
+            <a href="transactions.html" class="text-blue-500 block text-center mt-4">See All</a>
+        </div>
+
+        <div id="expense-form" class="bg-white p-4 rounded-lg shadow mt-4 hidden">
+            <h3 class="text-xl font-semibold mb-4">Add New Expense</h3>
+            <form id="new-expense-form">
+                <input type="hidden" name="type" value="expense">
+                <div class="mb-4">
+                    <label for="new-expense-name" class="block text-gray-700">Expense Name</label>
+                    <input type="text" id="new-expense-name" name="name" class="w-full p-2 border rounded" required>
+                </div>
+                <div class="mb-4">
+                    <label for="new-expense-amount" class="block text-gray-700">Amount</label>
+                    <input type="number" id="new-expense-amount" name="amount" class="w-full p-2 border rounded" required>
+                </div>
+                <div class="mb-4">
+                    <label for="new-expense-category" class="block text-gray-700">Category</label>
+                    <div class="flex items-center">
+                        <select id="new-expense-category" name="category" class="w-full p-2 border rounded" required>
+                            <option value="food">Food</option>
+                            <option value="utilities">Utilities</option>
+                            <option value="entertainment">Entertainment</option>
+                            <option value="transportation">Transportation</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <label for="new-expense-recurring" class="block text-gray-700">Recurring Monthly</label>
+                    <input type="checkbox" id="new-expense-recurring" name="recurring" class="p-2 rounded">
+                </div>
+                <button type="submit" class="w-full p-2 bg-blue-500 text-white rounded">Add Expense</button>
+            </form>
+        </div>
+
+        <div id="income-form" class="bg-white p-4 rounded-lg shadow mt-4 hidden">
+            <h3 class="text-xl font-semibold mb-4">Add New Income</h3>
+            <form id="new-income-form">
+                <input type="hidden" name="type" value="income">
+                <div class="mb-4">
+                    <label for="new-income-name" class="block text-gray-700">Income Name</label>
+                    <input type="text" id="new-income-name" name="name" class="w-full p-2 border rounded" required>
+                </div>
+                <div class="mb-4">
+                    <label for="new-income-amount" class="block text-gray-700">Amount</label>
+                    <input type="number" id="new-income-amount" name="amount" class="w-full p-2 border rounded" required>
+                </div>
+                <div class="mb-4">
+                    <label for="new-income-recurring" class="block text-gray-700">Recurring Monthly</label>
+                    <input type="checkbox" id="new-income-recurring" name="recurring" class="p-2 rounded">
+                </div>
+                <button type="submit" class="w-full p-2 bg-blue-500 text-white rounded">Add Income</button>
+            </form>
+        </div>
+
+        <div id="edit-transaction-form" class="bg-white p-4 rounded-lg shadow mt-4 hidden">
+            <h3 class="text-xl font-semibold mb-4">Edit Transaction</h3>
+            <form id="edit-transaction-form-element">
+                <input type="hidden" id="edit-transaction-id" name="id">
+                <input type="hidden" id="edit-transaction-type" name="type">
+                <div class="mb-4">
+                    <label for="edit-transaction-name" class="block text-gray-700">Transaction Name</label>
+                    <input type="text" id="edit-transaction-name" name="name" class="w-full p-2 border rounded" required>
+                </div>
+                <div class="mb-4">
+                    <label for="edit-transaction-amount" class="block text-gray-700">Amount</label>
+                    <input type="number" id="edit-transaction-amount" name="amount" class="w-full p-2 border rounded" required>
+                </div>
+                <div id="edit-category-container" class="mb-4 hidden">
+                    <label for="edit-transaction-category" class="block text-gray-700">Category</label>
+                    <select id="edit-transaction-category" name="category" class="w-full p-2 border rounded">
+                        <option value="food">Food</option>
+                        <option value="utilities">Utilities</option>
+                        <option value="entertainment">Entertainment</option>
+                        <option value="transportation">Transportation</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label for="edit-transaction-recurring" class="block text-gray-700">Recurring Monthly</label>
+                    <input type="checkbox" id="edit-transaction-recurring" name="recurring" class="p-2 rounded">
+                </div>
+                <button type="submit" class="w-full p-2 bg-blue-500 text-white rounded">Update Transaction</button>
+            </form>
+        </div>
+        
+    </div>
+
+    <script src="scripts.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body>
+</html>

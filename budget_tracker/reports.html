@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports</title>
+    <!-- Link to Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Link to Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-gray-100">
+    <!-- Navbar -->
+    <nav class="bg-blue-500 p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="text-white text-2xl font-bold">
+                BudgetT
+            </div>
+            <ul class="flex space-x-4">
+                <li><a href="index.html" class="text-white">Home</a></li>
+                <li><a href="profile.html" class="text-white">Profile</a></li>
+                <li><a href="transactions.html" class="text-white">Transactions</a></li>
+                <li><a href="reports.html" class="text-white">Reports</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Contents (graphs) -->
+    <div class="container mx-auto p-4">
+        <h1 class="text-4xl font-bold mb-6 text-indigo-500 border-b-2 border-indigo-400 pb-2 text-center">Reports</h1>
+        <div class="bg-white p-4 rounded-lg shadow mt-8 text-center">
+            <h3 class="text-xl font-semibold mb-4">Expenses by Category</h3>
+            <canvas id="expenses-chart" width="400" height="200"></canvas>
+        </div>
+        <div class="bg-white p-4 rounded-lg shadow mt-8 text-center">
+            <h3 class="text-xl font-semibold mb-4">Income by Category</h3>
+            <canvas id="income-chart" width="400" height="200"></canvas>
+        </div>
+    </div>
+
+    <script src="reports.js"></script>
+</body>
+</html>
